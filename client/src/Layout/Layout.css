@@ -1,0 +1,34 @@
+.mainLayout{
+    width: 100vw;
+    height: 100svh;
+    display: flex;
+}
+.mainSidebar{
+    /* flex: 1; */
+    width: 20vw;
+    /* background-color: #0d0c22; */
+    background-color: white;
+    position: relative;
+    transition: all 300ms ease-in-out;
+}
+.mainSidebar.hide{
+    width: 10vw;
+}
+.resizeBtn{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    color: blue;
+}
+.content{
+    /* flex: 4; */
+    width: 80vw;
+    background-color: #f4f5f6;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: #fc6a49 rgb(210,210,210);
+}
+.mainContent{
+    margin-top: 10px;
+}
