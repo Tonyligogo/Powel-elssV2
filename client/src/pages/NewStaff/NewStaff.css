@@ -1,0 +1,45 @@
+.newUser{
+    padding-inline: 30px;
+}
+.newUserContainer .newUserTitle{
+    font-size: large;
+    color: #d74221;
+}
+.newUserDetails form h3{
+    border-bottom: 1px solid lightgrey;
+    padding-bottom: 10px;
+}
+.newUserDetails form * .formInput > input,
+.newUserDetails form * .formInput > label,
+.newUserDetails form * .formInput > select
+{
+    display: block;
+}
+.newUserDetails .gridContent{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+.newUserDetails form * .formInput > input,
+.newUserDetails form * .formInput > select
+{
+    width: 100%;
+    padding: 0;
+    height: 30px;
+    font-size: 15px;
+    border: 1px solid lightgrey;
+    padding-inline-start: 2px;
+}
+.successMessage{
+    display: inline-flex;
+    align-items: center;
+    color: green;
+    background: rgb(203, 250, 203);
+    padding: 4px 10px;
+    border-radius: 8px;
+    gap: 4px;
+}
+.userInformation button > .progress{
+    color: white !important;
+    margin-right: 8px;
+}

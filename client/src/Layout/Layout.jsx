@@ -2,19 +2,18 @@ import { Outlet } from "react-router-dom"
 import './Layout.css'
 import Sidebar from "../components/Sidebar/Sidebar"
 import Navbar from "../components/Navbar/Navbar"
-import { useState } from "react"
+import { useAuthContext } from "../context/AuthProvider"
 
 function Layout() {
 
-  const [resizeTrue, setResizeTrue] = useState(false)
+  const {menuActive} = useAuthContext();
 
   return (
     <main className="mainLayout">
-        <div className={`mainSidebar ${resizeTrue ? "hide":"show" } `}>
-          {/* <span className="resizeBtn"  onClick={()=>setResizeTrue(prev => !prev)}>Resize</span> */}
+        <div className={`mainSidebar ${menuActive ? null : 'hideMenu'}`}>
           <Sidebar/>
         </div>
-        <div className="content">
+        <div className={`content ${menuActive ? null : 'fullWidth'}`}>
             <Navbar/>
             <div className="mainContent">
               <Outlet/>

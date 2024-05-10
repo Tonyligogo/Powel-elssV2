@@ -22,12 +22,12 @@ aside span.heading{
     margin: 10px 0;
     display: flex;
     place-items: center;
+    gap: 8px;
     padding: 10px 0px 10px 14px;
     border-radius: 4px;
     transition: all 200ms ease-in-out;
 }
 .homeButton:hover{
-    /* background-color: #f4f5f6; */
     background-color: #fef5f2;
     color: #d74221;
 }
@@ -48,9 +48,6 @@ aside span.heading{
     background-color: #fef5f2;
     color: #d74221;
 }
-.icon{
-    margin-right: 8px;
-}
 .nav.active{
      color: white; 
      background-color: #d74221;
@@ -58,6 +55,7 @@ aside span.heading{
 .linksWrapper p{
     display: flex;
     place-items: center;
+    gap: 8px;
     color: black;
     padding: 10px 0px 10px 14px;
     margin-block: 5px;

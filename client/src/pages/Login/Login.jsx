@@ -11,7 +11,7 @@ import toast from "react-hot-toast";
 function Login() {
   const userRef = useRef();
   const passwordRef = useRef();
-  const [formValues, setFormValues] = useState({ username: "", password: "" });
+  const [formValues, setFormValues] = useState({ email: "", password: "" });
   const [, setUserFocus] = useState(false);
   const [passwordType, setPasswordType] = useState(true);
   const { setToken, setLoading, setUser, authenticated, loading } =
@@ -38,29 +38,29 @@ function Login() {
   async function handleLogin(e) {
     e.preventDefault();
     setLoading(true);
-    const data = { email: formValues.username, password: formValues.password };
-    // await axios.post(`${server}/api/auth/login`, data)
-    // .then((res) => {
-    //   setToken(res.data.authorization)
-    //   setUser(res.data.user)
-    //   setFormValues({username:'',password:''})
-    //   // navigate("/");
-    //   window.location.href = "/"
-    // })
-    // .catch((err) => {
-    //   if(err.response?.status === 403){
-    //       toast.error('Wrong username or password', {
-    //         id: 'error',
-    //     })
-    //   }else{
-    //     toast.error('Login failed. Try again!', {
-    //       id: 'error',
-    //   })
-    //   }
-    // })
-    // .finally(() => {
-    //   setLoading(false);
-    // });
+    const data = { email: formValues.email, password: formValues.password };
+    await axios.post(`${server}/api/auth/login`, data)
+    .then((res) => {
+      console.log(res.data, 'this is response')
+      setToken(res.data.accessToken)
+      setUser(res.data.user)
+      setLoading(false)
+      // navigate("/");
+      window.location.href = "/"
+      setFormValues({email:'',password:''})
+    })
+    .catch((err) => {
+      if(err.response?.status === 400){
+          toast.error('Wrong email or password', {
+            id: 'error',
+        })
+      }else{
+        toast.error('Login failed. Try again!', {
+          id: 'error',
+      })
+      }
+      setLoading(false)
+    })
   }
 
   return (
@@ -78,18 +78,18 @@ function Login() {
         </span>
         <p className="line">
           {" "}
-          <small>or sign in with username</small>{" "}
+          <small>or sign in with email</small>{" "}
         </p>
         <form onSubmit={handleLogin}>
           <div className="inputBox">
-            <label htmlFor="username">Username</label>
+            <label htmlFor="email">Email</label>
             <input
               className="input"
-              id="username"
-              type="text"
-              value={formValues.username}
+              id="email"
+              type="email"
+              value={formValues.email}
               ref={userRef}
-              name="username"
+              name="email"
               autoComplete="off"
               onFocus={() => setUserFocus(true)}
               required

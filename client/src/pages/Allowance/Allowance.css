@@ -1,0 +1,43 @@
+.allowance{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.allowanceContainer{
+    width: max-content;
+    outline: 1px solid lightgrey;
+    border-radius: 10px;
+    padding: 40px 80px;
+}
+.allowancesFormTitle h3{
+    font-size: 24px;
+    color: #d74221;
+    margin: 0;
+    margin-bottom: 20px;
+}
+.allowancesForm > label{
+    width: 130px;
+    display: inline-block;
+}
+.allowancesForm >div{
+    margin-bottom: 20px;
+}
+.allowancesForm > div > input{
+    padding: 0;
+}
+.allowancesForm > div > input,
+.allowancesForm > div > select
+{
+    height: 22px;
+    width: 200px;
+}
+.allowancesForm > div > select
+{
+    width: 202px;
+    height: 24px;
+}
+.allowancesForm button > .progress{
+    color: white !important;
+    margin-right: 8px;
+}

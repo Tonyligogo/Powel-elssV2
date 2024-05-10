@@ -4,15 +4,14 @@
     display: flex;
 }
 .mainSidebar{
-    /* flex: 1; */
     width: 20vw;
-    /* background-color: #0d0c22; */
     background-color: white;
     position: relative;
     transition: all 300ms ease-in-out;
 }
-.mainSidebar.hide{
-    width: 10vw;
+.mainSidebar.hideMenu{
+    display: none;
+    transition: all 300ms ease-in-out;
 }
 .resizeBtn{
     position: absolute;
@@ -21,13 +20,15 @@
     color: blue;
 }
 .content{
-    /* flex: 4; */
     width: 80vw;
     background-color: #f4f5f6;
     overflow-y: auto;
     overflow-x: hidden;
     scrollbar-width: thin;
     scrollbar-color: #fc6a49 rgb(210,210,210);
+}
+.content.fullWidth{
+    width: 100vw;
 }
 .mainContent{
     margin-top: 10px;

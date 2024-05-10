@@ -1,0 +1,22 @@
+.bottom .value{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-block-end: 20px;
+}
+.bottom button{
+    background-color: #fef5f2;
+    color: #d74221;
+    border: none;
+    padding: 5px 12px;
+    border-radius: 6px;
+}
+.bottom button:hover{
+    background-color: #ffe4db;
+    color: #d74221;
+    cursor: pointer;
+}
+.editPen:hover{
+    color: #d74221;
+    cursor: pointer;
+}
