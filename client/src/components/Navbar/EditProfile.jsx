@@ -8,7 +8,7 @@ function EditProfile({onCloseProfileSettings}) {
     const { currentUser} = useAuthContext();
     
   return (
-    <>
+    <div>
       <div className="top">
         <div className="topLeft">
           <Icon icon="mingcute:user-4-fill" color="gray" width="50" />
@@ -39,7 +39,7 @@ function EditProfile({onCloseProfileSettings}) {
         </div>
         <button>Save Changes</button>
       </div>
-    </>
+    </div>
   );
 }
 

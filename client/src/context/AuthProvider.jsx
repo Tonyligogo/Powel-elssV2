@@ -14,6 +14,9 @@ export default function AuthProvider({ children }) {
   const [authToken, setAuthToken] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState(null);
+  const [userEmail, setUserEmail] = useState(null);
+  const [avatar, setAvatar] = useState(null);
+  const [userNumber, setUserNumber] = useState(null);
   const [authenticated, setAuthenticated] = useState(false);
   const [screensize, setScreensize] = useState(undefined);
   const [menuActive, setMenuActive] = useState(true);
@@ -22,10 +25,16 @@ export default function AuthProvider({ children }) {
   useEffect(() => {
     const storedAuthToken = sessionStorage.getItem("token");
     const storedUser = sessionStorage.getItem("user");
+    const storedUserEmail = sessionStorage.getItem("email");
+    const storedAvatar = sessionStorage.getItem("avatar");
+    const storedUserNumber = sessionStorage.getItem("number");
     const storedUserId = sessionStorage.getItem("userId");
     if (storedAuthToken) {
       setAuthToken(storedAuthToken);
       setCurrentUser(storedUser);
+      setUserEmail(storedUserEmail);
+      setAvatar(storedAvatar);
+      setUserNumber(storedUserNumber);
       setUserId(storedUserId);
       setAuthenticated(true);
     }
@@ -39,7 +48,11 @@ export default function AuthProvider({ children }) {
   };
   const setUser = (user) => {
     setCurrentUser(user.username);
+    setAvatar(user.avatar.url);
     sessionStorage.setItem("user", user.username);
+    sessionStorage.setItem("email", user.email);
+    sessionStorage.setItem("avatar", user.avatar.url);
+    sessionStorage.setItem("number", user.phone);
     sessionStorage.setItem("userId", user._id);
   };
 
@@ -47,6 +60,8 @@ export default function AuthProvider({ children }) {
     setAuthToken(null);
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("user");
+    sessionStorage.removeItem("email");
+    sessionStorage.removeItem("number");
     sessionStorage.removeItem("userId");
     setAuthenticated(false);
   };
@@ -56,6 +71,9 @@ export default function AuthProvider({ children }) {
         setToken,
         setUser,
         currentUser,
+        userEmail,
+        userNumber,
+        avatar,
         userId,
         authToken,
         removeToken,

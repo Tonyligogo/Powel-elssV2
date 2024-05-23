@@ -1,5 +1,9 @@
 .newUser{
-    padding-inline: 30px;
+    padding: 30px;
+    width: 800px;
+    margin-inline: auto;
+    border: 1px solid lightgrey;
+    border-radius: 4px;
 }
 .newUserContainer .newUserTitle{
     font-size: large;
@@ -9,15 +13,9 @@
     border-bottom: 1px solid lightgrey;
     padding-bottom: 10px;
 }
-.newUserDetails form * .formInput > input,
-.newUserDetails form * .formInput > label,
-.newUserDetails form * .formInput > select
-{
-    display: block;
-}
 .newUserDetails .gridContent{
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr ;
     gap: 20px;
 }
 .newUserDetails form * .formInput > input,
@@ -27,7 +25,6 @@
     padding: 0;
     height: 30px;
     font-size: 15px;
-    border: 1px solid lightgrey;
     padding-inline-start: 2px;
 }
 .successMessage{
@@ -42,4 +39,7 @@
 .userInformation button > .progress{
     color: white !important;
     margin-right: 8px;
+}
+.userInformation button{
+    margin-top: 20px;
 }

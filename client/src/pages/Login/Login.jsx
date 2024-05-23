@@ -5,8 +5,10 @@ import { server } from "../../server";
 import { useAuthContext } from "../../context/AuthProvider";
 import { CircularProgress } from "@mui/material";
 import { FiEyeOff, FiEye } from "react-icons/fi";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+
+axios.defaults.withCredentials = true;
 
 function Login() {
   const userRef = useRef();
@@ -41,7 +43,6 @@ function Login() {
     const data = { email: formValues.email, password: formValues.password };
     await axios.post(`${server}/api/auth/login`, data)
     .then((res) => {
-      console.log(res.data, 'this is response')
       setToken(res.data.accessToken)
       setUser(res.data.user)
       setLoading(false)
@@ -115,6 +116,11 @@ function Login() {
               onChange={handleChange}
               ref={passwordRef}
             />
+          </div>
+          <div style={{textAlign:'right'}}>
+            <NavLink to='/forgot-password' style={{textDecoration:'none', color:'grey'}}>
+              Forgot password?
+            </NavLink>
           </div>
           {loading ? (
             <button className="signIn">

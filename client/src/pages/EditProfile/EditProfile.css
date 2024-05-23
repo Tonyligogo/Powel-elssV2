@@ -1,0 +1,95 @@
+.editProfileWrapper{
+    background-color: white;
+    border-radius: 8px;
+    padding-block: 16px;
+    height: 100%;
+}
+.editProfileTop{
+    padding-inline: 16px;
+    border-bottom: 1px solid grey;
+    padding-bottom: 16px;
+}
+.editProfileBottom{
+    padding-inline: 16px;
+    border-bottom: 1px solid grey;
+    display: flex;
+}
+.editProfileAside{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-right: 1px solid grey;
+    padding: 20px;
+}
+.editProfileAside > div{
+    cursor: pointer;
+    padding: 10px 14px;
+    border-radius: 4px;
+}
+.editProfileAside > div:hover{
+    background-color: rgb(238, 246, 255);
+}
+.editProfileAside .active{
+    /* color: rgb(33, 150, 243); */
+    background-color: rgb(238, 246, 255);
+}
+.editProfileBottom .profilePic{
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid #d74221;
+    padding: 2px;
+}
+.rightSide{
+    padding: 20px;
+}
+.editProfileTab{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.editProfileTab span small{
+    display: block;
+    font-size: 12px;
+}
+.editProfileTab.active span small:first-child{
+    color: rgb(33, 150, 243);
+}
+.editProfileTab span small:first-child{
+    font-weight: 700;
+}
+.editProfileTab span small:last-child{
+    color: grey;
+}
+.profilePicWrapper{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.profileUpload{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.previewPic{
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    object-position: center;
+}
+.rightSide > div:last-child > *{
+    margin-top: 16px;
+}
+.rightSidePasswords{
+    display: flex;
+    gap: 4rem;
+    margin-top: 16px;
+}
+button:disabled{
+    cursor: not-allowed;
+    background-color: #cccccc; /* Gray background */
+    color: #666666;
+}

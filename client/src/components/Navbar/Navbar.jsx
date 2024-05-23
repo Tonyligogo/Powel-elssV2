@@ -8,8 +8,7 @@ import { FaRegUser } from "react-icons/fa6";
 import { IoIosArrowForward } from "react-icons/io";
 import { IoMdLogOut } from "react-icons/io";
 import { HiOutlineUserPlus } from "react-icons/hi2";
-import EditProfile from "./EditProfile";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AiOutlineMenuFold, AiOutlineMenuUnfold } from "react-icons/ai";
 
@@ -17,18 +16,13 @@ function Navbar() {
   const { currentUser, removeToken, screensize, setScreensize, menuActive, setMenuActive, userId } =
     useAuthContext();
   const [openProfile, setOpenProfile] = useState(false);
-  const [openProfileSettings, setOpenProfileSettings] = useState(false);
-
-  // callback function to receive state changes from Edit Profile component
-  const handleCloseProfileSettings = (closeProfileSettings) => {
-    setOpenProfileSettings(closeProfileSettings);
-  };
 
   useEffect(() => {
     const handleResize = () => setScreensize(window.innerWidth);
     window.addEventListener("resize", handleResize);
     handleResize();
     return () => window.removeEventListener("resize", handleResize);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
   useEffect(() => {
@@ -37,20 +31,18 @@ function Navbar() {
     } else {
       setMenuActive(true);
     }
-  },[screensize]);
+  },[screensize, setMenuActive]);
 
   const currentDate = new Date();
 
   const [time, setTime] = useState(new Date().toLocaleTimeString());
 
   function handleOpenProfile() {
-    setOpenProfileSettings(false);
     setOpenProfile((prev) => !prev);
   }
 
   function handleOpenProfileSettings() {
     setOpenProfile(false);
-    setOpenProfileSettings(true);
   }
 
   useEffect(() => {
@@ -62,15 +54,12 @@ function Navbar() {
   }, []);
 
   const navigate = useNavigate();
-  console.log(userId)
 
   function handleLogOut(e) {
     e.preventDefault();
     const data = { user: userId };
     axios
-      .post("http://localhost:5000/api/auth/logout", data, {
-        headers: { authorization: "jwt " + sessionStorage.getItem("token") },
-      })
+      .post("http://localhost:5000/api/auth/logout", data)
       .then(() => {
         removeToken();
         navigate("/LoginPage");
@@ -100,19 +89,21 @@ function Navbar() {
       </div>
       <div className="profileWrapper">
         <Tooltip title="Profile" className="right" onClick={handleOpenProfile}>
-          <Icon icon="mingcute:user-4-fill" color="gray" width="30" />
-          <small style={{ textTransform: "capitalize" }}>{currentUser}</small>
+          <div>
+            <Icon icon="mingcute:user-4-fill" color="gray" width="30" />
+            <small style={{ textTransform: "capitalize" }}>{currentUser}</small>
+          </div>
         </Tooltip>
         {openProfile && (
           <div className="profilePopup">
             <div className="top">
               <div className="topLeft">
-                <Icon icon="mingcute:user-4-fill" color="gray" width="50" />
+                <Icon icon="mingcute:user-4-fill"  width="50" />
                 <p>
                   <small style={{ textTransform: "capitalize" }}>
                     {currentUser}
                   </small>
-                  <small style={{ color: "grey", fontSize: "12px" }}>
+                  <small style={{ fontSize: "12px" }}>
                     Role @powel-elss.co
                   </small>
                 </p>
@@ -127,29 +118,33 @@ function Navbar() {
                 className="profileSettings"
                 onClick={handleOpenProfileSettings}
               >
-                <p>
+                  <NavLink to="/EditProfile" className='profileLink'>
                   <FaRegUser />
-                  <span>My Profile</span>
-                </p>
+                    My Profile
+                  </NavLink>
                 <IoIosArrowForward />
               </div>
               <div className="profileSettings">
-                <p>
-                  <HiOutlineUserPlus />
-                  <span>Add user</span>
-                </p>
+              <NavLink to="/EditProfile" className='profileLink'>
+              <HiOutlineUserPlus />
+              Add user
+                  </NavLink>
                 <IoIosArrowForward />
               </div>
+              {currentUser ? 
               <div className="logout" onClick={handleLogOut}>
                 <IoMdLogOut />
                 <span>Log out</span>
               </div>
+              :
+              <div className="profileSettings">
+                <NavLink to='/LoginPage' className='profileLink'>
+                  <IoMdLogOut />
+                  <span>Log in</span>
+                </NavLink>
+              </div>
+              }
             </div>
-          </div>
-        )}
-        {openProfileSettings && (
-          <div className="profilePopupSettings">
-            <EditProfile onCloseProfileSettings={handleCloseProfileSettings} />
           </div>
         )}
       </div>

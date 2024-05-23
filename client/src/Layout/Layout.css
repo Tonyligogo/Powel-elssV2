@@ -2,10 +2,10 @@
     width: 100vw;
     height: 100svh;
     display: flex;
+    background-color: white;
 }
 .mainSidebar{
     width: 20vw;
-    background-color: white;
     position: relative;
     transition: all 300ms ease-in-out;
 }
@@ -21,15 +21,21 @@
 }
 .content{
     width: 80vw;
-    background-color: #f4f5f6;
+    height: 100svh;
     overflow-y: auto;
     overflow-x: hidden;
-    scrollbar-width: thin;
+    scrollbar-width: medium;
     scrollbar-color: #fc6a49 rgb(210,210,210);
 }
 .content.fullWidth{
     width: 100vw;
 }
 .mainContent{
-    margin-top: 10px;
+    background-color: #eef2f6;
+    margin: 20px 10px 0 10px;
+    padding: 20px;
+    border-radius: 10px 10px 0 0;
+    height: calc(100% - 80px);
+    overflow-y: auto;
+
 }

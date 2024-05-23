@@ -10,10 +10,10 @@ button{
  select{
     background: none;
     border: none;
-    border: 1px solid gray;
-    width: 149px;
-    border-radius: 4px;
-    height: 24px;
+    outline: 1px solid gray;
+    /* width: 149px; */
+    border-radius: 2px;
+    height: 30px;
  }
  .deductionError{
     display: inline-flex;
