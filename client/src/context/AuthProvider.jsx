@@ -16,6 +16,7 @@ export default function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [userEmail, setUserEmail] = useState(null);
   const [avatar, setAvatar] = useState(null);
+  const [role, setRole] = useState(null);
   const [userNumber, setUserNumber] = useState(null);
   const [authenticated, setAuthenticated] = useState(false);
   const [screensize, setScreensize] = useState(undefined);
@@ -29,6 +30,7 @@ export default function AuthProvider({ children }) {
     const storedAvatar = sessionStorage.getItem("avatar");
     const storedUserNumber = sessionStorage.getItem("number");
     const storedUserId = sessionStorage.getItem("userId");
+    const storedRole = sessionStorage.getItem("role");
     if (storedAuthToken) {
       setAuthToken(storedAuthToken);
       setCurrentUser(storedUser);
@@ -36,6 +38,7 @@ export default function AuthProvider({ children }) {
       setAvatar(storedAvatar);
       setUserNumber(storedUserNumber);
       setUserId(storedUserId);
+      setRole(storedRole);
       setAuthenticated(true);
     }
     setLoading(false);
@@ -50,6 +53,7 @@ export default function AuthProvider({ children }) {
     setCurrentUser(user.username);
     setAvatar(user.avatar.url);
     sessionStorage.setItem("user", user.username);
+    sessionStorage.setItem("role", user.role);
     sessionStorage.setItem("email", user.email);
     sessionStorage.setItem("avatar", user.avatar.url);
     sessionStorage.setItem("number", user.phone);
@@ -59,6 +63,8 @@ export default function AuthProvider({ children }) {
   const removeToken = () => {
     setAuthToken(null);
     sessionStorage.removeItem("token");
+    sessionStorage.removeItem("role");
+    sessionStorage.removeItem("avatar");
     sessionStorage.removeItem("user");
     sessionStorage.removeItem("email");
     sessionStorage.removeItem("number");
@@ -73,6 +79,7 @@ export default function AuthProvider({ children }) {
         currentUser,
         userEmail,
         userNumber,
+        role,
         avatar,
         userId,
         authToken,

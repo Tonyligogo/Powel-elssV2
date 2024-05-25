@@ -1,5 +1,6 @@
 import { createBrowserRouter, Route, RouterProvider, createRoutesFromElements} from "react-router-dom";
 import LoginPage from "./pages/Login/Login";
+import PasswordResetEmail from "./pages/ForgotPassword/PasswordResetEmail";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import HomePage from "./pages/Home/Home";
 // forms
@@ -31,7 +32,8 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
       <Route path="/LoginPage" element={<LoginPage />} />
-      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/send-password-reset-email" element={<PasswordResetEmail />} />
+      <Route path="/reset-forgotten-password/:slug" element={<ForgotPassword />} />
       <Route path="/" element={<Layout/>}>
         <Route path="/" element={<HomePage />} />
         {/* forms */}

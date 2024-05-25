@@ -13,8 +13,17 @@ import axios from "axios";
 import { AiOutlineMenuFold, AiOutlineMenuUnfold } from "react-icons/ai";
 
 function Navbar() {
-  const { currentUser, removeToken, screensize, setScreensize, menuActive, setMenuActive, userId } =
-    useAuthContext();
+  const {
+    currentUser,
+    role,
+    avatar,
+    removeToken,
+    screensize,
+    setScreensize,
+    menuActive,
+    setMenuActive,
+    userId,
+  } = useAuthContext();
   const [openProfile, setOpenProfile] = useState(false);
 
   useEffect(() => {
@@ -22,8 +31,8 @@ function Navbar() {
     window.addEventListener("resize", handleResize);
     handleResize();
     return () => window.removeEventListener("resize", handleResize);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (screensize <= 900) {
@@ -31,7 +40,7 @@ function Navbar() {
     } else {
       setMenuActive(true);
     }
-  },[screensize, setMenuActive]);
+  }, [screensize, setMenuActive]);
 
   const currentDate = new Date();
 
@@ -58,39 +67,45 @@ function Navbar() {
   function handleLogOut(e) {
     e.preventDefault();
     const data = { user: userId };
-    axios
-      .post("http://localhost:5000/api/auth/logout", data)
-      .then(() => {
-        removeToken();
-        navigate("/LoginPage");
-      });
+    axios.post("http://localhost:5000/api/auth/logout", data).then(() => {
+      removeToken();
+      navigate("/LoginPage");
+    });
   }
 
   return (
     <nav>
       <div className="left">
-            <div className="greeting">
-            <span className="menuBtn"> {menuActive ? 
-            <AiOutlineMenuFold onClick={()=>setMenuActive(false)}/> 
-            : 
-            <AiOutlineMenuUnfold onClick={()=>setMenuActive(true)}/> } </span> 
-              <p>
-                Hello there,{" "}
-                <span style={{ textTransform: "capitalize" }}>{currentUser}</span>
-              </p>
-              <Icon icon="noto:waving-hand" width="30" />
-            </div>
-            <div className="dateTime">
-              <small>
-                {moment(currentDate, moment.ISO_8601).format("MMM Do YY")}
-              </small>
-              <small>{time}</small>
-            </div>
+        <div className="greeting">
+          <span className="menuBtn">
+            {" "}
+            {menuActive ? (
+              <AiOutlineMenuFold onClick={() => setMenuActive(false)} />
+            ) : (
+              <AiOutlineMenuUnfold onClick={() => setMenuActive(true)} />
+            )}{" "}
+          </span>
+          <p>
+            Hello there,{" "}
+            <span style={{ textTransform: "capitalize" }}>{currentUser}</span>
+          </p>
+          <Icon icon="noto:waving-hand" width="30" />
+        </div>
+        <div className="dateTime">
+          <small>
+            {moment(currentDate, moment.ISO_8601).format("MMM Do YY")}
+          </small>
+          <small>{time}</small>
+        </div>
       </div>
       <div className="profileWrapper">
         <Tooltip title="Profile" className="right" onClick={handleOpenProfile}>
           <div>
-            <Icon icon="mingcute:user-4-fill" color="gray" width="30" />
+            {avatar !== null ? (
+              <img src={avatar} alt="avatar" className="profilePic" />
+            ) : (
+              <Icon icon="mingcute:user-4-fill" width="50" />
+            )}
             <small style={{ textTransform: "capitalize" }}>{currentUser}</small>
           </div>
         </Tooltip>
@@ -98,13 +113,17 @@ function Navbar() {
           <div className="profilePopup">
             <div className="top">
               <div className="topLeft">
-                <Icon icon="mingcute:user-4-fill"  width="50" />
+                {avatar !== null ? (
+                  <img src={avatar} alt="avatar" className="profilePic" />
+                ) : (
+                  <Icon icon="mingcute:user-4-fill" width="50" />
+                )}
                 <p>
                   <small style={{ textTransform: "capitalize" }}>
                     {currentUser}
                   </small>
                   <small style={{ fontSize: "12px" }}>
-                    Role @powel-elss.co
+                    {role} @powel-elss.co
                   </small>
                 </p>
               </div>
@@ -118,32 +137,32 @@ function Navbar() {
                 className="profileSettings"
                 onClick={handleOpenProfileSettings}
               >
-                  <NavLink to="/EditProfile" className='profileLink'>
+                <NavLink to="/EditProfile" className="profileLink">
                   <FaRegUser />
-                    My Profile
-                  </NavLink>
-                <IoIosArrowForward />
-              </div>
-              <div className="profileSettings">
-              <NavLink to="/EditProfile" className='profileLink'>
-              <HiOutlineUserPlus />
-              Add user
-                  </NavLink>
-                <IoIosArrowForward />
-              </div>
-              {currentUser ? 
-              <div className="logout" onClick={handleLogOut}>
-                <IoMdLogOut />
-                <span>Log out</span>
-              </div>
-              :
-              <div className="profileSettings">
-                <NavLink to='/LoginPage' className='profileLink'>
-                  <IoMdLogOut />
-                  <span>Log in</span>
+                  My Profile
                 </NavLink>
+                <IoIosArrowForward />
               </div>
-              }
+              <div className="profileSettings">
+                <NavLink to="/" className="profileLink">
+                  <HiOutlineUserPlus />
+                  Add user
+                </NavLink>
+                <IoIosArrowForward />
+              </div>
+              {currentUser ? (
+                <div className="logout" onClick={handleLogOut}>
+                  <IoMdLogOut />
+                  <span>Log out</span>
+                </div>
+              ) : (
+                <div className="profileSettings">
+                  <NavLink to="/LoginPage" className="profileLink">
+                    <IoMdLogOut />
+                    <span>Log in</span>
+                  </NavLink>
+                </div>
+              )}
             </div>
           </div>
         )}

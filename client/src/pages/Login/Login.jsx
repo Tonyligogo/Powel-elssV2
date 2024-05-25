@@ -25,10 +25,9 @@ function Login() {
   }, []);
   useEffect(() => {
     if (authenticated) {
-      navigate("/");
+      navigate("/", { replace: true });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [authenticated, navigate]);
 
   function handleChange(e) {
     setFormValues({ ...formValues, [e.target.name]: e.target.value });
@@ -118,7 +117,7 @@ function Login() {
             />
           </div>
           <div style={{textAlign:'right'}}>
-            <NavLink to='/forgot-password' style={{textDecoration:'none', color:'grey'}}>
+            <NavLink to='/send-password-reset-email' style={{textDecoration:'none', color:'grey'}}>
               Forgot password?
             </NavLink>
           </div>

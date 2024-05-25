@@ -84,8 +84,8 @@ input[type=number]{
 }
 input:focus,
 input:hover{
-  outline: none;
-  border: 1px solid #d74221;
+  /* outline: none; */
+  outline: 1px solid #d74221;
   /* border-radius: 4px; */
 }
 select:focus,            

@@ -38,6 +38,13 @@ nav .profileWrapper .right{
     position: relative;
     margin-right: 20px;
 }
+.profilePic{
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 50%;
+}
 .profilePopup{
     position: absolute;
     top: 50px;

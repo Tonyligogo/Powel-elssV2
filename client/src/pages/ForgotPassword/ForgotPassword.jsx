@@ -13,7 +13,7 @@ function Login() {
   const confirmPasswordRef = useRef();
   const [formValues, setFormValues] = useState({ email: "", password: "", confirmPassword: ""});
   const [, setUserFocus] = useState(false);
-  const { setToken, setLoading, setUser, authenticated, loading } =
+  const { setLoading, authenticated, loading } =
     useAuthContext();
   const navigate = useNavigate();
 
@@ -34,26 +34,17 @@ function Login() {
   async function handleLogin(e) {
     e.preventDefault();
     setLoading(true);
-    const data = {password: formValues.password, confirmPassword: formValues.confirmPassword};
+    const data = {password: formValues.password, passwordConfirm: formValues.confirmPassword};
     await axios.post(`${server}/api/auth/forgot-password/${formValues.email}`, data)
-    .then((res) => {
-      setToken(res.data.accessToken)
-      setUser(res.data.user)
-      setLoading(false)
-      // navigate("/");
-      window.location.href = "/"
+    .then(() => {
       setFormValues({email:'',password:'',confirmPassword:''})
+      navigate("/LoginPage");
     })
     .catch((err) => {
-      if(err.response?.status === 400){
-          toast.error('Wrong email or password', {
-            id: 'error',
-        })
-      }else{
-        toast.error('Login failed. Try again!', {
-          id: 'error',
+      toast.error('There was an error resetting your password',{
+        id: 'error',
       })
-      }
+      console.log(err, 'error resetting password')
       setLoading(false)
     })
   }
