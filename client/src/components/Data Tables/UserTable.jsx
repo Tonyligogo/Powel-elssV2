@@ -1,6 +1,8 @@
 import Box from '@mui/material/Box';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { styled } from '@mui/material/styles';
+import './UserTable.css';
+import { MdModeEdit, MdDelete } from "react-icons/md";
 
 const StyledGridOverlay = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -74,13 +76,33 @@ function CustomNoRowsOverlay() {
     );
   }
 
-export default function UserTable({rows, columns}) {
+  
+
+export default function UserTable({rows, columns, onDelete}) {
+  const actionColumn = {
+    field:'action',
+    headerName:'Action',
+    width: 80,
+    renderCell: (params) => {
+      return (
+        <div >
+          <MdModeEdit style={{marginRight:'10px', cursor:'pointer'}}/>
+          <MdDelete style={{ cursor:'pointer'}} onClick={()=>handleDelete(params.row.id)}/>
+        </div>
+      )
+    }   
+  }
+  const handleDelete = (id) => {
+    onDelete(id)
+  };
   return (
     <Box sx={{ width: '100%' }}>
       <DataGrid
+      className='dataGrid'
+        // autoPageSize
         autoHeight {...rows}
         rows={rows?rows:[]}
-        columns={columns?columns:[]}
+        columns={columns?[...columns, actionColumn]:[]}
         initialState={{
           pagination: {
             paginationModel: {
@@ -88,11 +110,20 @@ export default function UserTable({rows, columns}) {
             },
           },
         }}
+        slotProps={{
+          toolbar:{
+            showQuickFilter: true,
+            quickFilterProps:{debounceMs:500}
+          }
+        }}
         pageSizeOptions={[5]}
         checkboxSelection
         disableRowSelectionOnClick
-        slots={{ noRowsOverlay: CustomNoRowsOverlay }}
+        slots={{ noRowsOverlay: CustomNoRowsOverlay, toolbar:GridToolbar }}
         sx={{ '--DataGrid-overlayHeight': '300px' }}
+        disableColumnFilter
+        disableDensitySelector
+        disableColumnSelector
       />
     </Box>
   );

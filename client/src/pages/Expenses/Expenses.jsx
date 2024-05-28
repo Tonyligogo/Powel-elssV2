@@ -1,12 +1,18 @@
 import "./Expenses.css";
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { nanoid } from "nanoid";
+import { useState } from "react";
 import { CircularProgress } from "@mui/material";
 import toast from "react-hot-toast";
+import { server } from "../../server";
+import { useQuery } from "react-query";
 axios.defaults.withCredentials = true;
 
 function Expenses() {
+
+  const {data:count, refetch} = useQuery('count', ()=>{
+    return axios.get(`${server}/api/expense/get-count`)
+  });
+
   const [formData, setFormData] = useState({
     code: "",
     service: "",
@@ -17,7 +23,7 @@ function Expenses() {
   function changeValue(e) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   }
-  const invCode = nanoid(10);
+  const invCode = 'Inv-'+count?.data?.count;
   const currentDate = new Date().toLocaleDateString();
   const data = {
     code: invCode,
@@ -25,19 +31,18 @@ function Expenses() {
     total_cost: formData.cost,
     recorded_by: formData.recordedBy,
     date: currentDate,
+    count: count?.data?.count
   };
-  const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
   async function saveDetails(e) {
     e.preventDefault();
     setLoading(true);
     await axios
-      .post("http://localhost:5000/api/dashboard/expenses", data, {
-        headers: { authorization: "jwt " + sessionStorage.getItem("token") },
-      })
+      .post(`${server}/api/expense/new-expense`, data)
       .then(() => {
-        setSuccess(true);
+        toast.success("Expense saved successfully", {
+          id: "expenseSaved",
+        });
         setFormData({
           code: "",
           service: "",
@@ -45,26 +50,17 @@ function Expenses() {
           recordedBy: "",
           date: "",
         });
+        refetch()
       })
-      .catch((error) => {
-        if (error.response.status) {
-          setError(true);
-        }
+      .catch(() => {
+        toast.success("An error occured while attempting to save expense", {
+          id: "error",
+        });
       })
       .finally(() => {
         setLoading(false);
       });
-    setTimeout(() => {
-      setSuccess(false);
-    }, 2000);
   }
-  useEffect(() => {
-    if (success) {
-      toast.success("Saved successfully", {
-        id: "expenseSaved",
-      });
-    }
-  }, [success]);
 
   return (
     <div className="formContainer">
@@ -116,7 +112,6 @@ function Expenses() {
               <button type="submit">Save</button>
             )}
           </form>
-          {error && <p>Some error occured</p>}
         </div>
   );
 }

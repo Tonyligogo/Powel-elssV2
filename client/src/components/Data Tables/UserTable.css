@@ -1,0 +1,11 @@
+.dataGrid{
+    background-color: white;
+    padding: 20px;
+}
+.dataGrid .MuiDataGrid-toolbarContainer{
+    flex-direction: row-reverse;
+}
+.MuiInputBase-input:hover,
+.MuiInputBase-input:focus{
+    outline: none !important;
+}

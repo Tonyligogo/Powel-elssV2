@@ -3,10 +3,12 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { CircularProgress } from "@mui/material";
 import toast from "react-hot-toast";
+import {server} from "../../server"
 
 axios.defaults.withCredentials = true;
 
 function Allowances() {
+
   const [formData, setFormData] = useState({
     idNo: "",
     month: "",
@@ -16,11 +18,12 @@ function Allowances() {
     imprestAmount: "",
     transport: "",
   });
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
   function changeValue(e) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   }
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
 
   const data = {
     id_no: formData.idNo,
@@ -36,7 +39,7 @@ function Allowances() {
     e.preventDefault();
     setLoading(true);
     await axios
-      .post("http://localhost:5000/api/dashboard/allowances-entry", data, {
+      .post(`${server}/api/allowance/new-allowance`, data, {
         headers: { authorization: "jwt " + sessionStorage.getItem("token") },
       })
       .then(() => {

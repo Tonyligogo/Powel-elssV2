@@ -6,7 +6,7 @@ function StaffRecords() {
 
   const {data:staffRecords} = useQuery('staffRecords', ()=>{
     return axios.get("http://localhost:5000/api/staff/get-all-staff-data")
-  })
+  });
 
   const columns = [
     // { field: 'id', headerName: 'ID', width: 90 },
@@ -23,34 +23,31 @@ function StaffRecords() {
       headerName: 'Phone_no',
       type: 'number',
       width: 110,
-      editable: true,
     },
     {
       field: 'id_no',
       headerName: 'ID_no',
       width: 110,
-      editable: true,
     },
     {
       field: 'job_title',
       headerName: 'Job title',
       width: 200,
-      editable: true,
     },
     {
       field: 'P_no',
       headerName: 'P_no',
       type: 'number',
       width: 80,
-      editable: true,
     }
   ];
+
   const rows = staffRecords?.data?.staff_data.map((obj) => {
     return { ...obj, id: obj._id };
   });
 
   return (
-    <div style={{ height: 350, width: '100%' }}>
+    <div style={{ height: '100%', width: '100%', position:'relative'}}>
         <UserTable rows={rows} columns={columns}/>
     </div>
   )

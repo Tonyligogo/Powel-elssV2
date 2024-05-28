@@ -1,15 +1,13 @@
 import "./Deduction.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { Icon } from "@iconify/react";
 import { CircularProgress } from "@mui/material";
 import toast from "react-hot-toast";
+import { server } from "../../server";
 
 axios.defaults.withCredentials = true;
 
 function Deduction() {
-  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     idNo: "",
     month: "",
@@ -32,19 +30,16 @@ function Deduction() {
     advances: formData.advances,
     taxes: formData.taxes,
   };
-  const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [errMsg, setErrMsg] = useState("");
   async function saveDetails(e) {
     e.preventDefault();
     setLoading(true);
     await axios
-      .post("http://localhost:5000/api/dashboard/deduction-entry", data, {
-        headers: { authorization: "jwt " + sessionStorage.getItem("token") },
-      })
+      .post(`${server}/api/deduction/new-deduction`, data)
       .then(() => {
-        setSuccess(true);
+        toast.success("Saved successfully", {
+          id: "deductionSaved",
+        });
         setFormData({
           idNo: "",
           month: "",
@@ -56,38 +51,26 @@ function Deduction() {
         });
       })
       .catch((error) => {
-        if (error.response.status === 401) {
-          setError(true);
-          setErrMsg("It seems you are not authorized. Try logging in again!");
-        } else {
-          setErrMsg("An error occured. Refresh the page and try again.");
+        if (error.response.status === 422) {
+          toast.success("Please provide all the required information", {
+            id: "error422",
+          });
+        } else if (error.response.status === 409){
+          toast.success("There is no staff member with the specified id number", {
+            id: "error422",
+          });
+        }
+        else {
+          toast.success("An error occured. Refresh the page and try again.", {
+            id: "error500",
+          });
         }
       })
       .finally(() => {
         setLoading(false);
       });
-    setTimeout(() => {
-      setSuccess(false);
-    }, 2000);
   }
-  useEffect(() => {
-    if (success) {
-      toast.success("Saved successfully", {
-        id: "deductionSaved",
-      });
-    }
-  }, [success]);
-  useEffect(() => {
-    if (error) {
-      const timeoutId = setTimeout(() => {
-        navigate("/LoginPage");
-      }, 3000); // Redirect to login after 3 seconds
 
-      return () => {
-        clearTimeout(timeoutId);
-      };
-    }
-  }, [error, navigate]);
   return (
     <div className="formContainer">
           <h3 className="formTitle">Deduction Form</h3>
@@ -188,12 +171,6 @@ function Deduction() {
               <button type="submit">Save</button>
             )}
           </form>
-          {errMsg && (
-            <p className="deductionError">
-              <Icon icon="clarity:error-solid" color="red" width="22" />{" "}
-              {errMsg}
-            </p>
-          )}
         </div>
   );
 }
