@@ -23,7 +23,7 @@ function Expenses() {
   function changeValue(e) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   }
-  const invCode = 'Inv-'+count?.data?.count;
+  const invCode = 'Exp-'+count?.data?.count;
   const currentDate = new Date().toLocaleDateString();
   const data = {
     code: invCode,

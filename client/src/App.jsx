@@ -9,6 +9,8 @@ import DeductionForm from './pages/Deduction/Deduction'
 import ExpenseForm from './pages/Expenses/Expenses'
 //Profile
 import EditProfile from './pages/EditProfile/EditProfile'
+// Add user
+import AddUser from "./pages/AddUser/AddUser";
 // staff
 import NewStaff from './pages/NewStaff/NewStaff'
 import StaffRecords from './pages/StaffRecords/StaffRecords'
@@ -42,6 +44,8 @@ const router = createBrowserRouter(
         <Route path="ExpenseForm" element={<ExpenseForm />} />
         {/* Edit profile */}
         <Route path="EditProfile" element={<EditProfile />} />
+        {/* Add system user */}
+        <Route path="AddUser" element={<AddUser />} />
         {/* staff */}
         <Route path="NewStaff" element={<NewStaff />} />
         <Route path="StaffRecords" element={<StaffRecords />} />

@@ -50,10 +50,6 @@ function Navbar() {
     setOpenProfile((prev) => !prev);
   }
 
-  function handleOpenProfileSettings() {
-    setOpenProfile(false);
-  }
-
   useEffect(() => {
     let secTimer = setInterval(() => {
       setTime(new Date().toLocaleTimeString());
@@ -133,18 +129,15 @@ function Navbar() {
             </div>
             <p className="line"></p>
             <div className="bottom">
-              <div
-                className="profileSettings"
-                onClick={handleOpenProfileSettings}
-              >
+              <div className="profileSettings" onClick={() => setOpenProfile(false)}>
                 <NavLink to="/EditProfile" className="profileLink">
                   <FaRegUser />
                   My Profile
                 </NavLink>
                 <IoIosArrowForward />
               </div>
-              <div className="profileSettings">
-                <NavLink to="/" className="profileLink">
+              <div className="profileSettings" onClick={() => setOpenProfile(false)}>
+                <NavLink to="/AddUser" className="profileLink">
                   <HiOutlineUserPlus />
                   Add user
                 </NavLink>
