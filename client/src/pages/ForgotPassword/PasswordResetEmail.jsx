@@ -11,13 +11,13 @@ axios.defaults.withCredentials = true;
 function PasswordResetEmail() {
   const emailRef = useRef();
   const [email, setEmail] = useState("");
-  const [emailSent, setEmailSent] = useState(true);
+  const [emailSent, setEmailSent] = useState(false);
   const [, setUserFocus] = useState(false);
   const { setLoading, authenticated, loading } = useAuthContext();
   const navigate = useNavigate();
 
   useEffect(() => {
-    emailRef.current.focus();
+    emailRef?.current?.focus();
   }, []);
   useEffect(() => {
     if (authenticated) {

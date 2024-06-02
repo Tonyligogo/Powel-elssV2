@@ -1,69 +1,95 @@
-
+import { useState, useRef, useEffect } from 'react';
+import './CodeVerification.css'
 import axios from 'axios';
-import { useEffect, useRef, useState } from 'react';
 import { server } from '../../server';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+// import Logo from '../../assets/logo.png'
 
 const CodeVerification = ({token}) => {
-    const [code, setCode] = useState('');
-    const [errorMessage, setErrorMessage] = useState(null);
-    const inputRefs = useRef([]); // Array of refs for each input field
-  
-    const handleInputChange = (event, index) => {
-      const newCode = code.split(''); // Convert code to array
-      newCode[index] = event.target.value;
-      setCode(newCode.join('')); // Update code with new value
-      
-      // Focus next input if not the last one and value entered
-      if (index < code.length - 1 && event.target.value) {
-        inputRefs.current[index + 1].focus();
-      }
-    };
+  const [code, setCode] = useState(['', '', '', '']);
+  const inputRefs = useRef([]);
+  const navigate = useNavigate()
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    if (code.length !== 4) {
-      setErrorMessage('Please enter a 4-digit code');
-      return;
-    }
-    const data={
-        activation_token:token,
-        activation_code:code
-    }
-    console.log(data, 'mydata')
-    axios.post(`${server}/api/auth/user-activation`,data)
-    .then((res)=>{
-        console.log(res);
-        toast.success('Account successfully created',{id:'success'});
-    })
-    .catch((err)=>{
-        console.log(err);
-        toast.error('There was an error activating your account',{id:'error'});
-    })
-  };
-
+  // Focus the first input when the component mounts
   useEffect(() => {
-    // Focus the first input on initial render
     inputRefs.current[0].focus();
   }, []);
 
+  const handleChange = (index, value) => {
+    // Allow only numeric input
+    if (/^\d?$/.test(value)) {
+      const newCode = [...code];
+      newCode[index] = value;
+      setCode(newCode);
+
+      // Shift focus to the next input if the current input is filled
+      if (value && index < 3) {
+        inputRefs.current[index + 1].focus();
+      }
+
+      // Handle backspace to focus the previous input
+      if (!value && index > 0) {
+        inputRefs.current[index - 1].focus();
+      }
+    }
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const codeString = code.join('');
+
+    if (codeString.length !== 4) {
+      alert('Code must be 4 digits long.');
+      return;
+    }
+
+    try {
+        const data={
+            activation_token:token,
+            activation_code:codeString
+        }
+        axios.post(`${server}/api/auth/user-activation`,data)
+        .then(()=>{
+            toast.success('Code verified successfully',{id:'success'});
+            setCode(['', '', '', '']);
+            inputRefs.current[0].focus();
+            navigate('/AddUser',{replace:true})
+        })
+        .catch(()=>{
+            toast.error('An error occurred during verification. Please try again.',{id:'error'});
+        })
+  }catch(error){
+    toast.error('Unable to verify. Please try again.',{id:'failed'});
+  }
+}
+
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        {[...Array(4)].map((_, index) => (
-          <input
-            key={index}
-            type="text"
-            maxLength={1}
-            value={code[index] || ''}
-            onChange={(e) => handleInputChange(e, index)}
-            ref={(el) => (inputRefs.current[index] = el)}
-          />
-        ))}
+    <div className="codeWrapper">
+    <div className="codeVerification">
+      <div className="codeVerificationTop">
+        <h2>Powel-Elss</h2>
+        <h2>Enter Verification Code</h2>
       </div>
-      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-      <button type="submit">Verify Code</button>
-    </form>
+      <p>We&apos;ve sent a verification code to the email you provided.</p>
+      <form onSubmit={handleSubmit}>
+        <div>
+          {code.map((value, index) => (
+            <input
+              key={index}
+              type="text"
+              value={value}
+              onChange={(e) => handleChange(index, e.target.value)}
+              maxLength={1}
+              ref={(el) => (inputRefs.current[index] = el)}
+              style={{ textAlign: 'center', marginRight: '0.5em' }}
+            />
+          ))}
+        </div>
+        <button type="submit">Verify Code</button>
+      </form>
+    </div>
+    </div>
   );
 };
 

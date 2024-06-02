@@ -117,7 +117,7 @@ function Login() {
             />
           </div>
           <div style={{textAlign:'right'}}>
-            <NavLink to='/send-password-reset-email' style={{textDecoration:'none', color:'grey'}}>
+            <NavLink to='/reset-forgotten-password' style={{textDecoration:'none', color:'grey'}}>
               Forgot password?
             </NavLink>
           </div>

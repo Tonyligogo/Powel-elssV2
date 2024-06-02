@@ -1,0 +1,46 @@
+.codeWrapper{
+    display: grid;
+    place-content: center;
+    height: 100%;
+}
+.codeVerification{
+    background-color: white;
+    padding: 20px 40px;
+    border-radius: 8px;
+    max-width: 500px;
+    text-align: center;
+}
+.codeVerification .codeVerificationTop{
+    display: block;
+    margin-bottom: 20px;
+}
+.codeVerification .codeVerificationTop h2{
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+.codeVerification .codeVerificationTop h2:first-child{
+    margin-bottom: 30px;
+}
+.codeVerification .codeVerificationTop h2:last-child{
+    color: #d74221;
+}
+.codeVerification p{
+    margin-bottom: 20px;
+    color: rgb(105, 117, 134);
+}
+.codeVerification form{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 30px;
+    margin-block: 30px;
+}
+.codeVerification form div{
+    display: flex;
+    justify-content: space-between;
+}
+.codeVerification form div input{
+    width: 100%;
+    padding: 4px;
+    border-radius: 4px;
+}

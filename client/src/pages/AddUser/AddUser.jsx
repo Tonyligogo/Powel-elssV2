@@ -1,12 +1,18 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaRegUser } from "react-icons/fa6";
 import { Icon } from "@iconify/react";
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import {server} from '../../server';
 import CodeVerification from '../../components/CodeVerification/CodeVerification';
+import { useAuthContext } from '../../context/AuthProvider';
 function AddUser() {
-
+  const {role, loading:contextLoading} = useAuthContext()
+    useEffect(()=>{
+      if(!contextLoading && role.toLowerCase() !== 'admin'){
+        window.history.back()
+      }
+    },[contextLoading, role])
     const [userName, setUserName] = useState('');
     const [email, setEmail] = useState('');
     const [number, setNumber] = useState('');
@@ -18,10 +24,10 @@ function AddUser() {
     const[token, setToken] = useState(false);
     // password validation
     const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [newpasswordError, setNewPasswordError] = useState('');
-  const [confirmPasswordError, setConfirmPasswordError] = useState('');
-  const [isValid, setIsValid] = useState(false);
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [newpasswordError, setNewPasswordError] = useState('');
+    const [confirmPasswordError, setConfirmPasswordError] = useState('');
+    const [isValid, setIsValid] = useState(false);
 
 
     const convertBase64 = (file)=>{
@@ -82,18 +88,17 @@ function AddUser() {
         e.preventDefault();
         setLoading(true)
         const imageFile = file[0];
-        const base64 = await convertBase64(imageFile);
+        const base64 = imageFile !== undefined ? await convertBase64(imageFile) : undefined;
         setFilePreview(null);
         const data = {
-          avatar: base64,
           username: userName,
           email: email,
           phone: number,
           password:  newPassword,
+          ...(base64 !== undefined && { avatar: base64 })
         }
         await axios.post(`${server}/api/auth/register`,data)
         .then((res)=>{
-          console.log(res)
             toast.success('User successfully created', {
                 id: 'success',
             })
@@ -106,21 +111,21 @@ function AddUser() {
             setConfirmPassword('');
             setNewPassword('');
         })
-        .catch(()=>{
-            toast.error('Failed to create new user', {
+        .catch((err)=>{
+            toast.error(err?.response?.data?.message, {
                 id: 'error',
             })
             setLoading(false)
         })
       }
        
-
   return (
-    <div className='editProfileWrapper'>
+    <>
+    {!userCreated ?<div className='editProfileWrapper'>
         <div className="editProfileTop">
             <span>New System User</span>
         </div>
-        {!userCreated ? <div className="editProfileBottom">
+         <div className="editProfileBottom">
             <div className='editProfileAside'>
                 <div className='editProfileTab active'>
                 <FaRegUser />
@@ -133,12 +138,11 @@ function AddUser() {
             <form onSubmit={handleSubmit} autoComplete='off'>
                 <div className='rightSide'>
                     <div className='profilePicWrapper'>
-                        {/* <img src={ProfilePic} alt="Profile Pic" className='profilePic'/> */}
-                        <Icon icon="mingcute:user-4-fill" width="60" />
+                        <Icon icon="mingcute:user-4-fill" width="60" color='gray'/>
                         <div className='profileUpload'>
                             <input style={{ display: "none" }} type="file" id="file" onChange={handleAvatarChange}/>
                             <label htmlFor="file" >
-                                <span>Choose profile photo</span>
+                                <span style={{ cursor: "pointer" }}>Choose profile photo</span>
                             </label>
                             {filePreview !== null && <img src={filePreview} alt="Preview" className='previewPic' /> }
                         </div>
@@ -176,10 +180,11 @@ function AddUser() {
                 <button type='submit' disabled={!isValid} style={{margin:'16px'}} >{!loading ? 'Create User' : 'Creating user...'}</button>
             </form>
         </div>
+        </div>
         :
         <CodeVerification token={token} />
-        }
-    </div>
+      }
+      </>
   )
 }
 

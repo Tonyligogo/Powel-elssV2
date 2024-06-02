@@ -18,7 +18,7 @@ function Login() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    userRef.current.focus();
+    userRef?.current?.focus();
   }, []);
   useEffect(() => {
     if (authenticated) {
@@ -37,14 +37,13 @@ function Login() {
     const data = {password: formValues.password, passwordConfirm: formValues.confirmPassword};
     await axios.post(`${server}/api/auth/forgot-password/${formValues.email}`, data)
     .then(() => {
-      setFormValues({email:'',password:'',confirmPassword:''})
+      setLoading(false)
       navigate("/LoginPage");
     })
     .catch((err) => {
-      toast.error('There was an error resetting your password',{
+      toast.error(err?.response?.data?.message,{
         id: 'error',
       })
-      console.log(err, 'error resetting password')
       setLoading(false)
     })
   }

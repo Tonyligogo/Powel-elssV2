@@ -1,0 +1,33 @@
+table{
+  width: 100%;
+}
+th{
+    text-align: left;
+    padding-left: 24px;
+}
+td{
+  font-weight: 400;
+  line-height: 1.5em;
+  color: rgb(54, 65, 82);
+  font-size: 0.875rem;
+  border-bottom: 1px solid rgb(238, 238, 238);
+  padding: 16px 16px 16px 24px;
+}
+.addItem{
+    margin:24px;
+    color: #d74221;
+    cursor:pointer;
+    width: fit-content;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+.addItem:hover{
+    background-color: #feece6;
+}
+.select{
+    margin-bottom: 20px;
+}
+.select select{
+    color: rgb(99, 107, 116);
+    background-color: rgb(248, 250, 252);
+}

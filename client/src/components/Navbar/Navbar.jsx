@@ -136,13 +136,14 @@ function Navbar() {
                 </NavLink>
                 <IoIosArrowForward />
               </div>
-              <div className="profileSettings" onClick={() => setOpenProfile(false)}>
+              {role.toLowerCase() === 'admin' &&
+               <div className="profileSettings" onClick={() => setOpenProfile(false)}>
                 <NavLink to="/AddUser" className="profileLink">
                   <HiOutlineUserPlus />
                   Add user
                 </NavLink>
                 <IoIosArrowForward />
-              </div>
+              </div>}
               {currentUser ? (
                 <div className="logout" onClick={handleLogOut}>
                   <IoMdLogOut />

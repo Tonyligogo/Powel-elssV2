@@ -1,4 +1,5 @@
 import "./Quotation.css";
+import QuotationItems from "./QuotationItems";
 
 function Quotation() {
   return (
@@ -10,7 +11,7 @@ function Quotation() {
         <div className="one">
           <div>
             <label htmlFor="" className="quotationLabel">
-              Invoice Number
+            Quotation Number
             </label>
             <input type="text" className="quotationInput" />
           </div>
@@ -58,43 +59,20 @@ function Quotation() {
         </div>
         <div className="three">
           <div>
-            <label htmlFor="" className="quotationLabel">
-              Invoice Date
+            <label htmlFor="date" className="quotationLabel">
+            Quotation Date
             </label>
-            <input type="text" className="quotationInput" />
+            <input type="date" id="date" className="quotationInput" />
           </div>
           <div>
-            <label htmlFor="" className="quotationLabel">
-              Invoice Due Date
+            <label htmlFor="dueDate" className="quotationLabel">
+            Quotation Due Date
             </label>
-            <input type="text" className="quotationInput" />
+            <input type="date" id="dueDate" className="quotationInput" />
           </div>
         </div>
         <div className="four">
-            <div className="quotationItems">
-                <div>
-                    <label htmlFor="" className="quotationLabel">
-                    Item Name
-                    </label>
-                    <input type="text" className="quotationInput" />
-                </div>
-                <div>
-                    <label htmlFor="" className="quotationLabel">
-                    Item Quantity
-                    </label>
-                    <input type="text" className="quotationInput" />
-                </div>
-                <div>
-                    <label htmlFor="" className="quotationLabel">
-                    Item Amount
-                    </label>
-                    <input type="text" className="quotationInput" />
-                </div>
-            </div>
-            <div className="quotationActionBtns">
-                <button>Cancel</button>
-                <button>Add</button>
-            </div>
+            <QuotationItems/>
         </div>
         <div className="five">
           <p>Subtotal: <span>1000</span> </p>

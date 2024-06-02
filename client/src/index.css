@@ -82,10 +82,16 @@ input::-webkit-inner-spin-button {
 input[type=number]{
   appearance: textfield;
 }
+input{
+  /* border: none; */
+  border: 1px solid grey;
+}
 input:focus,
 input:hover{
-  /* outline: none; */
-  outline: 1px solid #d74221;
+  /* border: none; */
+  outline: none;
+  /* outline: 1px solid #d74221; */
+  border: 1px solid #d74221;
   /* border-radius: 4px; */
 }
 select:focus,            
