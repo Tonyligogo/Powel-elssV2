@@ -11,7 +11,9 @@
 .quotationHeader{
   padding-left: 24px;
 }
-.quotationBody > div{
+.quotationBody > div,
+.quotationBody .two > div
+{
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
@@ -19,6 +21,11 @@
   margin: 20px 24px;
   padding-top: 20px;
   border-top: 1px solid rgb(227, 232, 239);
+}
+.quotationBody .two > div
+{
+  margin: 0;
+  border: none;
 }
 .quotationLabel{
   font-size: 0.875rem;

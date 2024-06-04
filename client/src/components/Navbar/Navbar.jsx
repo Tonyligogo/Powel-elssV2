@@ -100,7 +100,7 @@ function Navbar() {
             {avatar !== null ? (
               <img src={avatar} alt="avatar" className="profilePic" />
             ) : (
-              <Icon icon="mingcute:user-4-fill" width="50" />
+              <Icon icon="mingcute:user-4-fill" color="gray" width="50" />
             )}
             <small style={{ textTransform: "capitalize" }}>{currentUser}</small>
           </div>
@@ -112,7 +112,7 @@ function Navbar() {
                 {avatar !== null ? (
                   <img src={avatar} alt="avatar" className="profilePic" />
                 ) : (
-                  <Icon icon="mingcute:user-4-fill" width="50" />
+                  <Icon icon="mingcute:user-4-fill" color="white" width="50" />
                 )}
                 <p>
                   <small style={{ textTransform: "capitalize" }}>
@@ -136,7 +136,7 @@ function Navbar() {
                 </NavLink>
                 <IoIosArrowForward />
               </div>
-              {role.toLowerCase() === 'admin' &&
+              {role?.toLowerCase() === 'admin' &&
                <div className="profileSettings" onClick={() => setOpenProfile(false)}>
                 <NavLink to="/AddUser" className="profileLink">
                   <HiOutlineUserPlus />

@@ -83,28 +83,25 @@ input[type=number]{
   appearance: textfield;
 }
 input{
-  /* border: none; */
+  border: 1px solid grey;
+}
+select{
   border: 1px solid grey;
 }
 input:focus,
 input:hover{
-  /* border: none; */
   outline: none;
-  /* outline: 1px solid #d74221; */
   border: 1px solid #d74221;
-  /* border-radius: 4px; */
 }
 select:focus,            
 select:hover{
-  outline: 1px solid #d74221;
-  border: none;
-  /* border-radius: 4px; */
+  outline: none;
+  border: 1px solid #d74221;
 }
 textarea:focus,            
 textarea:hover{
   outline: 1px solid #d74221;
   border: none;
-  /* border-radius: 4px; */
 }
 textarea{
   resize: none;

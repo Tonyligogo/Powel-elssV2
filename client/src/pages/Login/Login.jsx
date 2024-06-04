@@ -67,7 +67,7 @@ function Login() {
     <div className="loginPage">
       <div className="form">
         <h2 className="title">Sign in to powel-elss</h2>
-        <span className="google">
+        {/* <span className="google">
           {" "}
           <img
             className="googleLogo"
@@ -79,7 +79,7 @@ function Login() {
         <p className="line">
           {" "}
           <small>or sign in with email</small>{" "}
-        </p>
+        </p> */}
         <form onSubmit={handleLogin}>
           <div className="inputBox">
             <label htmlFor="email">Email</label>

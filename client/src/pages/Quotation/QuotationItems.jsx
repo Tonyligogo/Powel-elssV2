@@ -2,20 +2,22 @@ import { useState } from "react";
 import "./QuotationTable.css";
 import { MdDeleteOutline } from "react-icons/md";
 
-function QuotationItems() {
+function QuotationItems({onTableUpdate}) {
   const [items, setItems] = useState([]);
   const [addItem, setAddItem] = useState(false);
-  const [selectedData, setSelectedData] = useState('')
+  // const [selectedData, setSelectedData] = useState('')
+  const [itemType, setItemType] = useState('');
     
   const [inputValues, setInputValues] = useState({
-    itemName: "",
+    itemDescription: "",
     quantity: "",
     price: "",
+    unit:""
   });
 
-  function handleSelect(e){
-    setSelectedData(e.target.value);
-  }
+  // function handleSelect(e){
+  //   setSelectedData(e.target.value);
+  // }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,47 +28,73 @@ function QuotationItems() {
   };
 
   const handleAddItem = () => {
-    const finalAmount = inputValues.quantity * inputValues.price;
-    setItems([...items, { ...inputValues, finalAmount }]);
+    const amount = inputValues.quantity * inputValues.price;
+    setItems([...items, { ...inputValues, amount }]);
+    onTableUpdate([...items, { ...inputValues, amount }]);
     setInputValues({
-      itemName: "",
-      quantity: "",
-      price: "",
+      itemName: '',
+      quantity: '',
+      price: '',
+      unit: ''
     });
     setAddItem(false);
   };
   const handleCancel = () => {
     setInputValues({
-      itemName: "",
-      quantity: "",
-      price: "",
+      itemName: '',
+      quantity: '',
+      price: '',
+      unit: ''
     });
     setAddItem(false);
   };
   const handleRemoveItem = (index) => {
     const newItems = items.filter((item, i) => i !== index);
     setItems(newItems);
+    onTableUpdate(newItems);
   };
+
+  const handleTypeChange = (e) => {
+    const selectedType = e.target.value;
+    setItemType(selectedType);
+
+    // if (selectedType === 'Service') {
+    //   setItems([]);
+    // }
+
+    setInputValues({
+      itemName: '',
+      quantity: '',
+      price: '',
+      unit: ''
+    });
+  };
+
+  // const handleSaveTableData = (e) => {
+  //   e.preventDefault();
+  //   onTableUpdate(items);
+  // }
 
   return (
     <div>
         <div className="select">
               <label htmlFor="select" className="quotationLabel">Select quotation type</label>
-              <select name="option" id="select" required className="quotationInput"  onChange={handleSelect}>
+              <select name="option" id="select" required className="quotationInput"  onChange={handleTypeChange}>
                 <option value=''>--Select type--</option>
-                <option value={selectedData.option}>Service</option>
-                <option value={selectedData.option}>Supply</option>
-                <option value={selectedData.option}>Service and Supply</option>
+                <option value={itemType.option}>Service</option>
+                <option value={itemType.option}>Supply</option>
+                <option value={itemType.option}>Service and Supply</option>
               </select>
             </div>
       {items.length > 0 && (
         <table>
           <thead>
             <tr>
-              <th>Item Name</th>
+              <th>Item Description</th>
               <th>Quantity</th>
-              <th>Price</th>
-              <th>Total Amount</th>
+              <th>Unit price</th>
+              <th>Total</th>
+              {itemType !== 'Service' && <th>Unit</th>}
               <th>Action</th>
             </tr>
           </thead>
@@ -76,7 +104,8 @@ function QuotationItems() {
                 <td>{item.itemName}</td>
                 <td>{item.quantity}</td>
                 <td>{item.price}</td>
-                <td>{item.finalAmount}</td>
+                <td>{item.amount}</td>
+                {itemType !== 'Service' && <td>{item.unit}</td>}
                 <td>
                   <MdDeleteOutline
                     onClick={() => handleRemoveItem(index)}
@@ -92,7 +121,10 @@ function QuotationItems() {
           </tbody>
         </table>
       )}
-      {items.length <= 0 || addItem ? <div>
+      {itemType ?
+
+      <>{items.length <= 0 || addItem ? <div>
+        <form onSubmit={handleAddItem}>
         <div className="quotationItems">
             <div>
             <label htmlFor="itemName" className="quotationLabel">
@@ -136,14 +168,35 @@ function QuotationItems() {
                 className="quotationInput"
             />
             </div>
+            {(itemType === 'Supply' || itemType === 'Service and Supply') && (
+              <div>
+                <label htmlFor="unit" className="quotationLabel">
+                  Unit
+                </label>
+                  <input
+                    type="text"
+                    name="unit"
+                    id="unit"
+                    className="quotationInput"
+                    value={inputValues.unit}
+                    onChange={handleChange}
+                    required={itemType === 'Supply'}
+                  />
+              </div>
+            )}
         </div>
         <div className="quotationActionBtns">
-            <button onClick={handleCancel}>Cancel</button>
-            <button onClick={handleAddItem}>Add</button>
+            <button type="button" onClick={handleCancel}>Cancel</button>
+            <button type="submit">Add</button>
         </div>
+        </form>
       </div>
       :
+      <>
       <p onClick={()=>setAddItem(true)} className="addItem">+Add Item</p>
+      </>
+      }</>
+      :null
       }
     </div>
   );
